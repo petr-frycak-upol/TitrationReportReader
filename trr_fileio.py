@@ -2,9 +2,9 @@ import os.path
 
 def write_file(data, fullname):
     if os.path.exists(fullname):
-        wrong_answer = True
-        while wrong_answer:
-            answer = input("File exists! Overwrite (O), Rename manually (R), Append number (A), Cancel (C)\r\n")
+        acceptable_answer = False
+        while not acceptable_answer:
+            answer = input("File exists! Overwrite (O), Rename manually (R), Append number (A), Cancel (C)\n")
 
             if answer.upper() == "O":
                 wrong_answer = False
