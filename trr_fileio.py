@@ -69,15 +69,13 @@ def provide_valid_filename(folder, rootname, extension):
         else:
             root_head = rootname + "_"
 
-    new_root_tail = str(root_tail_number)
-    if len(new_root_tail) < root_tail_length: new_root_tail = (root_tail_length - len(new_root_tail)) * "0" + new_root_tail
-    valid_filename = os.path.join(folder, root_head + new_root_tail + extension)
-    while os.path.exists(valid_filename):
-        root_tail_number += 1
+    while True:
         new_root_tail = str(root_tail_number)
-        if len(new_root_tail) < root_tail_length: new_root_tail = (root_tail_length - len(
-            new_root_tail)) * "0" + new_root_tail
+        if len(new_root_tail) < root_tail_length:
+            new_root_tail = (root_tail_length - len(new_root_tail)) * "0" + new_root_tail
         valid_filename = os.path.join(folder, root_head + new_root_tail + extension)
+        if os.path.exists(valid_filename): root_tail_number += 1
+        else: break
 
     return valid_filename
 
