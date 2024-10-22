@@ -1,5 +1,7 @@
 import os.path
 
+DEFAULT_ROOT_TAIL_LENGTH = 3
+
 def write_file(data, fullname):
     final_fullname = ""
     folder = os.path.split(fullname)[0]
@@ -50,26 +52,31 @@ def provide_valid_filename(folder, rootname, extension):
 
     root_head = ""
     root_tail_number = 0
+    root_tail_length = DEFAULT_ROOT_TAIL_LENGTH
 
-    if underscore_rindex == -1:
+    if underscore_rindex == -1: #jméno neobsahuje podtržítko
         root_head = rootname + "_"
     elif underscore_rindex == len(rootname)-1: #tj. jméno končí podtržítkem
         root_head = rootname
-    else:
+    else: #jméno obsahuje alespoň jedno podtržítko; žádné není na konci
         root_tail = rootname[underscore_rindex + 1:]
         root_head = rootname[:underscore_rindex - 1]
         for char in root_tail:
             if not char in ZERO_TO_NINE: is_zero_to_nine = False
         if is_zero_to_nine:
+            root_tail_length = len(root_tail)
             root_tail_number = int(root_tail)
         else:
             root_head = rootname + "_"
 
     new_root_tail = str(root_tail_number)
+    if len(new_root_tail) < root_tail_length: new_root_tail = (root_tail_length - len(new_root_tail)) * "0" + new_root_tail
     valid_filename = os.path.join(folder, root_head + new_root_tail + extension)
     while os.path.exists(valid_filename):
         root_tail_number += 1
         new_root_tail = str(root_tail_number)
+        if len(new_root_tail) < root_tail_length: new_root_tail = (root_tail_length - len(
+            new_root_tail)) * "0" + new_root_tail
         valid_filename = os.path.join(folder, root_head + new_root_tail + extension)
 
     return valid_filename
