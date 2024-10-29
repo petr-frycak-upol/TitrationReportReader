@@ -34,7 +34,5 @@ def CalcFirstDer(data):
         (volume0, ph0) = data[i]
         (volume1, ph1) = data[i+1]
         d = ((ph1-ph0)/(volume1-volume0))
-        output.append(((volume1-volume0)/2, d))
+        output.append((volume1-volume0)/2, abs(d))
     return output
-
-#Hokus pokus
