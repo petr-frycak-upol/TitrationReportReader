@@ -27,3 +27,12 @@ for line in lines:
 
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
+
+def CalcFirstDer(data):
+    output = []
+    for i in range(len(data)-2):
+        (volume0, ph0) = data[i]
+        (volume1, ph1) = data[i+1]
+        d = ((ph1-ph0)/(volume1-volume0))
+        output.append(((volume1-volume0)/2, d))
+    return output
