@@ -50,3 +50,22 @@ for line in lines:
 
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
+
+def find_eq_point(numbers):
+    pos_closest = min(x for x in numbers if x >= 0)
+    neg_closest = max(x for x in numbers if x < 0)
+
+    pos_index = numbers.index(pos_closest)
+    neg_index = numbers.index(neg_closest)
+
+    print(pos_closest, neg_closest)
+    
+    if pos_index < neg_index:
+        x1, y1 = neg_closest, numbers[neg_index]
+        x2, y2 = pos_closest, numbers[pos_index]
+    else:
+        x1, y1 = pos_closest, numbers[pos_index]
+        x2, y2 = neg_closest, numbers[neg_index]
+
+    y = y1 + (0 - x1) * (y2 - y1) / (x2 - x1)
+    return y
