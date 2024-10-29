@@ -78,14 +78,6 @@ def provide_valid_filename(folder, rootname, extension):
         else: break
 
     return valid_filename
-def CalcSeconder(data):
-    output=[]
-    for i in range(len(data)-1):
-        (volume0, derivation0) = data[i]
-        (volume1, derivation1) = data[i+1] 
-        x = ((derivation1-derivation0)/(volume1-volume0))
-        output.append(((volume1-volume0)/2, x))
-        return output
 
 def read_file(fullname):
     lines = []
