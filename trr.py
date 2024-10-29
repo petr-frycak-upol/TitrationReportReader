@@ -1,8 +1,8 @@
 import trr_fileio
 
 titration_data = []
-report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
-temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
+report_file = "D:\\python_projects\\report.rpt"
+temp_file = "D:\\python_projects\\report_extract.txt"
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
@@ -10,13 +10,13 @@ PH_INDEX = 3
 def process_line(line):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
-
+    
 
 
 def Calc_n_Der(data, n):
     if n == 0:
         return data
-    
+
     output = []
     for i in range(len(data)-1):
         (volume0, ph0) = data[i]
@@ -24,9 +24,9 @@ def Calc_n_Der(data, n):
 
         x = (ph1 - ph0) / (volume1 - volume0)
         output.append(((volume1 + volume0) / 2, x))
-    
+
     return Calc_n_Der(output, n-1)
-        
+
 
 
 def find_eq_point(sec_derivative):
@@ -47,18 +47,13 @@ line_interesting = False
 
 for line in lines:
     if line_interesting:
-        if line == "":
-            line_interesting = False
+        if line == "": line_interesting = False
         else:
             process_line(line)
     else:
         if ("Volume" in line and "pH" in line):
             line_interesting = True
-            # print(line.split())
+            #print(line.split())
 
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
-
-
-print(find_eq_point(Calc_n_Der(titration_data, 2)))
-
