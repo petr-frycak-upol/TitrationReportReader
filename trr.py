@@ -36,3 +36,5 @@ def CalcFirstDer(data):
         d = ((ph1-ph0)/(volume1-volume0))
         output.append(((volume1-volume0)/2, d))
     return output
+
+#Hokus pokus
