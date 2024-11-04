@@ -47,7 +47,8 @@ line_interesting = False
 
 for line in lines:
     if line_interesting:
-        if line == "": line_interesting = False
+        if line == "":
+            line_interesting = False
         else:
             process_line(line)
     else:
