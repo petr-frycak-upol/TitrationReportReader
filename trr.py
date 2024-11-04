@@ -65,8 +65,6 @@ for line in lines:
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
-#test
-
 
 
 
