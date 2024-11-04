@@ -6,10 +6,11 @@ temp_file = "D:\\python_projects\\report_extract.txt"
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
+
 def process_line(line):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
-    
+
 
 lines = trr_fileio.read_file(report_file)
 
@@ -17,32 +18,27 @@ line_interesting = False
 
 for line in lines:
     if line_interesting:
-        if line == "": line_interesting = False
+        if line == "":
+            line_interesting = False
         else:
             process_line(line)
     else:
         if ("Volume" in line and "pH" in line):
             line_interesting = True
-            #print(line.split())
+            # print(line.split())
 
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
-def find_eq_point(numbers):
-    pos_closest = min(x for x in numbers if x >= 0)
-    neg_closest = max(x for x in numbers if x < 0)
 
-    pos_index = numbers.index(pos_closest)
-    neg_index = numbers.index(neg_closest)
-
-    print(pos_closest, neg_closest)
-    
-    if pos_index < neg_index:
-        x1, y1 = neg_closest, numbers[neg_index]
-        x2, y2 = pos_closest, numbers[pos_index]
-    else:
-        x1, y1 = pos_closest, numbers[pos_index]
-        x2, y2 = neg_closest, numbers[neg_index]
-
-    y = y1 + (0 - x1) * (y2 - y1) / (x2 - x1)
-    return y
+def find_eq_point(sec_derivative):
+    for i in range(len(sec_derivative) - 1):
+        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
+        if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
+            break
+    x1, y1 = sec_derivative[i]
+    x2, y2 = sec_derivative[i + 1]
+    m = (y2 - y1) / (x2 - x1)
+    b = y1 - m * x1
+    extrap = -b / m
+    return extrap
