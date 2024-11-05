@@ -20,7 +20,7 @@ def CalcSecondDer(data):
         (volume0, derivation0) = data[i]
         (volume1, derivation1) = data[i+1] 
         x = ((derivation1-derivation0)/(volume1-volume0))
-        output.append(((volume1-volume0)/2, x))
+        output.append(((volume1+volume0)/2, x))
         return output
 
 
@@ -31,7 +31,7 @@ def CalcFirstDer(data):
         (volume0, ph0) = data[i]
         (volume1, ph1) = data[i+1]
         d = ((ph1-ph0)/(volume1-volume0))
-        output.append(((volume1-volume0)/2, d))
+        output.append(((volume1+volume0)/2, d))
     return output
 
 
@@ -66,5 +66,5 @@ print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
 
-
+print((CalcFirstDer(titration_data)))
 
