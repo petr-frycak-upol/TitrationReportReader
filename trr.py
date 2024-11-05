@@ -10,7 +10,7 @@ PH_INDEX = 3
 def process_line(line):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
-    
+
 
 
 def Calc_n_Der(data, n):
@@ -28,19 +28,6 @@ def Calc_n_Der(data, n):
     return Calc_n_Der(output, n-1)
 
 
-
-def find_eq_point(sec_derivative):
-    for i in range(len(sec_derivative) - 1):
-        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
-        if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
-            break
-    x1, y1 = sec_derivative[i]
-    x2, y2 = sec_derivative[i + 1]
-    m = (y2 - y1) / (x2 - x1)
-    b = y1 - m * x1
-    return -b / m
-
-
 lines = trr_fileio.read_file(report_file)
 
 line_interesting = False
@@ -54,7 +41,31 @@ for line in lines:
     else:
         if ("Volume" in line and "pH" in line):
             line_interesting = True
-            #print(line.split())
+            # print(line.split())
 
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
+
+def min_max_index(data):
+    min_index, max_index = 0, 0
+    for i in range(len(data)):
+        if data[i][1] < data[min_index][1]:
+            min_index = i
+        if data[i][1] > data[max_index][1]:
+            max_index = i
+    return min_index, max_index
+
+
+def find_eq_point(sec_derivative):
+    (min_index, max_index) = min_max_index(sec_derivative)
+    data = sec_derivative[min_index:max_index]
+    for i in range(len(sec_derivative) - 1):
+        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
+        if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
+            break
+    x1, y1 = sec_derivative[i]
+    x2, y2 = sec_derivative[i + 1]
+    m = (y2 - y1) / (x2 - x1)
+    b = y1 - m * x1
+    extrap = -b / m
+    return extrap
