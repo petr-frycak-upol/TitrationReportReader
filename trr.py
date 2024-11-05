@@ -30,8 +30,19 @@ for line in lines:
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
+def min_max_index(data):
+    min_index, max_index = 0, 0
+    for i in range(len(data)):
+        if data[i][1] < data[min_index][1]:
+            min_index = i
+        if data[i][1] > data[max_index][1]:
+            max_index = i
+    return min_index, max_index
+
 
 def find_eq_point(sec_derivative):
+    (min_index, max_index) = min_max_index(sec_derivative)
+    data = sec_derivative[min_index:max_index]
     for i in range(len(sec_derivative) - 1):
         # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
         if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
