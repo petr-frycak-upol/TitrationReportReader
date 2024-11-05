@@ -12,6 +12,29 @@ def process_line(line):
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
 
 
+
+
+def CalcSecondDer(data):
+    output=[]
+    for i in range(len(data)-1):
+        (volume0, derivation0) = data[i]
+        (volume1, derivation1) = data[i+1]
+        x = ((derivation1-derivation0)/(volume1-volume0))
+        output.append(((volume1-volume0)/2, x))
+        return output
+
+
+
+def CalcFirstDer(data):
+    output = []
+    for i in range(len(data)-1):
+        (volume0, ph0) = data[i]
+        (volume1, ph1) = data[i+1]
+        d = ((ph1-ph0)/(volume1-volume0))
+        output.append(((volume1-volume0)/2, d))
+    return output
+
+
 lines = trr_fileio.read_file(report_file)
 
 line_interesting = False
@@ -53,3 +76,4 @@ def find_eq_point(sec_derivative):
     b = y1 - m * x1
     extrap = -b / m
     return extrap
+
