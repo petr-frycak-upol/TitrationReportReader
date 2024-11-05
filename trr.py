@@ -12,6 +12,7 @@ def process_line(line):
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
 
 
+
 def Calc_n_Der(data, n):
     if n == 0:
         return data
@@ -20,11 +21,13 @@ def Calc_n_Der(data, n):
     for i in range(len(data)-1):
         (volume0, ph0) = data[i]
         (volume1, ph1) = data[i+1]
+
         x = (ph1 - ph0) / (volume1 - volume0)
         output.append(((volume1 + volume0) / 2, x))
     
     return Calc_n_Der(output, n-1)
         
+
 
 def find_eq_point(sec_derivative):
     for i in range(len(sec_derivative) - 1):
@@ -56,4 +59,6 @@ for line in lines:
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
+
 print(find_eq_point(Calc_n_Der(titration_data, 2)))
+
