@@ -59,13 +59,15 @@ def min_max_index(data):
 def find_eq_point(sec_derivative):
     (min_index, max_index) = min_max_index(sec_derivative)
     data = sec_derivative[min_index:max_index]
-    for i in range(len(sec_derivative) - 1):
+    for i in range(len(data) - 1):
         # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
-        if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
+        if data[i][1] * data[i + 1][1] < 0:
             break
-    x1, y1 = sec_derivative[i]
-    x2, y2 = sec_derivative[i + 1]
+    x1, y1 = data[i]
+    x2, y2 = data[i + 1]
     m = (y2 - y1) / (x2 - x1)
     b = y1 - m * x1
     extrap = -b / m
     return extrap
+
+print(find_eq_point(Calc_n_Der(titration_data, 2)))
