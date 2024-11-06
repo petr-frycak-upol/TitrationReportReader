@@ -69,5 +69,3 @@ def find_eq_point(sec_derivative):
     b = y1 - m * x1
     extrap = -b / m
     return extrap
-
-print(find_eq_point(Calc_n_Der(titration_data, 2)))
