@@ -1,8 +1,8 @@
 import trr_fileio
 
 titration_data = []
-report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
-temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
+report_file = "D:\\python_projects\\report.rpt"
+temp_file = "D:\\python_projects\\report_extract.txt"
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
@@ -16,7 +16,7 @@ def process_line(line):
 def Calc_n_Der(data, n):
     if n == 0:
         return data
-    
+
     output = []
     for i in range(len(data)-1):
         (volume0, ph0) = data[i]
@@ -24,21 +24,8 @@ def Calc_n_Der(data, n):
 
         x = (ph1 - ph0) / (volume1 - volume0)
         output.append(((volume1 + volume0) / 2, x))
-    
+
     return Calc_n_Der(output, n-1)
-        
-
-
-def find_eq_point(sec_derivative):
-    for i in range(len(sec_derivative) - 1):
-        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
-        if sec_derivative[i][1] * sec_derivative[i + 1][1] < 0:
-            break
-    x1, y1 = sec_derivative[i]
-    x2, y2 = sec_derivative[i + 1]
-    m = (y2 - y1) / (x2 - x1)
-    b = y1 - m * x1
-    return -b / m
 
 
 lines = trr_fileio.read_file(report_file)
@@ -59,6 +46,26 @@ for line in lines:
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
+def min_max_index(data):
+    min_index, max_index = 0, 0
+    for i in range(len(data)):
+        if data[i][1] < data[min_index][1]:
+            min_index = i
+        if data[i][1] > data[max_index][1]:
+            max_index = i
+    return min_index, max_index
 
-print(find_eq_point(Calc_n_Der(titration_data, 2)))
 
+def find_eq_point(sec_derivative):
+    (min_index, max_index) = min_max_index(sec_derivative)
+    data = sec_derivative[min_index:max_index]
+    for i in range(len(data) - 1):
+        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná, došlo k překročení osy x
+        if data[i][1] * data[i + 1][1] < 0:
+            break
+    x1, y1 = data[i]
+    x2, y2 = data[i + 1]
+    m = (y2 - y1) / (x2 - x1)
+    b = y1 - m * x1
+    extrap = -b / m
+    return extrap
