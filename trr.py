@@ -14,16 +14,16 @@ def process_line(line):
 
 
 
-def CalcSecondDer(data):
-    output=[]
-    for i in range(len(data)-1):
-        (volume0, derivation0) = data[i]
-        (volume1, derivation1) = data[i+1] 
-        x = ((derivation1-derivation0)/(volume1-volume0))
-        output.append(((volume1+volume0)/2, x))
+def calc_n_der(data, n = 1):
+    if n>1: return calc_n_der(calc_n_der(data, 1), n-1)
+    else:
+        output=[]
+        for i in range(len(data)-1):
+            (x0, y0) = data[i]
+            (x1, y1) = data[i+1]
+            d = ((y1-y0)/(x1-x0))
+            output.append(((x1+x0)/2, d))
         return output
-
-
 
 def CalcFirstDer(data):
     output = []
@@ -65,6 +65,12 @@ for line in lines:
 print(titration_data)
 trr_fileio.write_file(titration_data, temp_file)
 
+#sd = CalcSecondDer(CalcFirstDer(titration_data))
+#print(find_eq_point(CalcSecondDer(CalcFirstDer(titration_data))))
 
-print((CalcFirstDer(titration_data)))
+acc = 0
 
+#for i in range(len(sd) - 1):
+#    if sd[i][1] * sd[i + 1][1] < 0: acc += 1
+
+print(calc_n_der(titration_data, 2))
