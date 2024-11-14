@@ -112,8 +112,8 @@ def chart(data):
     text_place =(5,12),
     arrowprops=dict(facecolor='black', width=1, headwidth=5),
     fontsize=12, color="red")
-    plt.legend
-    plt.show
+    plt.legend()
+    plt.show()
     plt.savefig("titration_curve.png")
 
 
