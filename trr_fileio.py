@@ -1,4 +1,5 @@
 import os.path
+import glob
 
 DEFAULT_ROOT_TAIL_LENGTH = 3
 
@@ -79,9 +80,20 @@ def provide_valid_filename(folder, rootname, extension):
 
     return valid_filename
 
+report_directory = "D:\\aSystem\\Dokumenty\\_Vysoká škola\\nMgr\\PNAC\\Titration_reports" #!Nutno změnit pro každé z našich zařízení
+
+def read_directory(report_directory):
+    #Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
+    pattern = os.path.join(report_directory, "*.rpt")
+    #Použijeme glob aby nám našel všechny rpt soubory v adresáři
+    rpt_files = glob.glob(pattern)
+    return rpt_files
+
 def read_file(fullname):
     lines = []
     with open(fullname, "rt", encoding="ansi") as f:
         for line in f:
             lines.append(line.strip())
     return lines
+
+#test2
