@@ -1,20 +1,16 @@
 import trr_fileio
 
 if __name__ != '__main__': print("Import of trr successful")
-report_file = "D:\\python_projects\\report.rpt"
-temp_file = "D:\\python_projects\\report_extract.txt"
-
+report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
+temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
 
 def process_line(line, titration_data):
+def process_line(line, titration_data):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
-
-
-
-
 
 def calc_n_der(data, n = 1):
     if n == 0:
@@ -29,11 +25,6 @@ def calc_n_der(data, n = 1):
         output.append(((volume1 + volume0) / 2, x))
 
     return calc_n_der(output, n - 1)
-
-
-
-
-
 
 def min_max_index(data):
     min_index, max_index = 0, 0
@@ -51,6 +42,8 @@ def find_eq_point(sec_derivative):
     for i in range(len(data) - 1):
         # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná,
         # došlo k překročení osy x
+        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná,
+        # došlo k překročení osy x
         if data[i][1] * data[i + 1][1] < 0:
             j = i
             break
@@ -63,7 +56,7 @@ def find_eq_point(sec_derivative):
     extrap = -b / m
     return extrap
 
-def get_titration_curve(report_file: str) -> list[float]:
+def get_titration_curve(report_file):
     titration_data = []
     lines = trr_fileio.read_file(report_file)
 
@@ -82,13 +75,13 @@ def get_titration_curve(report_file: str) -> list[float]:
 
     return titration_data
     #print(titration_data)
-
     #trr_fileio.write_file(titration_data, temp_file)
 
 def secder_eqpoint(data):
+    parameters = []
     titration_curve = get_titration_curve(data) # vytvoření titrační křivky
     sec_derivation = calc_n_der(titration_curve, 2) # výpočet druhé derivace
     eq_point = find_eq_point(sec_derivation) # výpočet bodu titrace
-    if eq_point == 0: return None
-    return (titration_curve, sec_derivation, eq_point)
-
+    parameters.append([titration_curve, sec_derivation, eq_point]) # vytvoření seznamu trojic hodnot
+    
+    return parameters
