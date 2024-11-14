@@ -107,7 +107,7 @@ def chart(data):
     plt.xlabel("Volume")
     plt.ylabel("pH")
     # Přidá popisek do grafu s informací o bodu ekvivalence; indexově vybráno z listu vycházejícího z funkce "x"
-    plt.anotate(f"Equivalence point by volume: {data[2]}",
+    plt.annotate(f"Equivalence point by volume: {data[2]}",
     place=(3,12),
     text_place =(5,12),
     arrowprops=dict(facecolor='black', width=1, headwidth=5),
