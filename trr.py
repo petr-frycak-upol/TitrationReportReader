@@ -46,14 +46,16 @@ def min_max_index(data):
 
 def find_eq_point(sec_derivative):
     (min_index, max_index) = min_max_index(sec_derivative)
-    data = sec_derivative[min_index:max_index]
+    data = sec_derivative[min(min_index, max_index):max(min_index, max_index)]
+    j = 0
     for i in range(len(data) - 1):
         # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná,
         # došlo k překročení osy x
         if data[i][1] * data[i + 1][1] < 0:
+            j = i
             break
-    x1, y1 = data[i]
-    x2, y2 = data[i + 1]
+    x1, y1 = data[j]
+    x2, y2 = data[j + 1]
     m = (y2 - y1) / (x2 - x1)
     b = y1 - m * x1
     extrap = -b / m

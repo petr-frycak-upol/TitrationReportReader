@@ -1,8 +1,5 @@
 import os.path
 import matplotlib.pyplot as plt
-import numpy as np
-
-from trr import titration_data, Calc_n_Der
 import glob
 
 DEFAULT_ROOT_TAIL_LENGTH = 3
@@ -84,7 +81,7 @@ def provide_valid_filename(folder, rootname, extension):
 
     return valid_filename
 
-report_directory = "D:\\aSystem\\Dokumenty\\_Vysoká škola\\nMgr\\PNAC\\Titration_reports" #!Nutno změnit pro každé z našich zařízení
+report_directory = "D:\\Python_projects\\HI_931_reports" #!Nutno změnit pro každé z našich zařízení
 
 def read_directory(report_directory):
     #Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
