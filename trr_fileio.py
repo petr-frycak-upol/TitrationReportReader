@@ -1,4 +1,8 @@
 import os.path
+import matplotlib.pyplot as plt
+import numpy as np
+
+from trr import titration_data, Calc_n_Der
 import glob
 
 DEFAULT_ROOT_TAIL_LENGTH = 3
@@ -95,5 +99,23 @@ def read_file(fullname):
         for line in f:
             lines.append(line.strip())
     return lines
+
+def chart(data):
+    #vytvoří dvě křivky dle indexů jak jsou data v listu vycházejícího z finkce "x"
+    plt.plot(data[0][0], data[0][1], label='Titration Curve', color='blue', linestyle='-', marker='x')
+    plt.plot(data[1][0], data[1][1], label='Second Derivative', color='green', linestyle='--', marker='y')
+    plt.title(" Titration Curve with second derivative")
+    plt.xlabel("Volume")
+    plt.ylabel("pH")
+    # Přidá popisek do grafu s informací o bodu ekvivalence; indexově vybráno z listu vycházejícího z funkce "x"
+    plt.annotate(f"Equivalence point by volume: {data[2]}",
+    place=(3,12),
+    text_place =(5,12),
+    arrowprops=dict(facecolor='black', width=1, headwidth=5),
+    fontsize=12, color="red")
+    plt.legend()
+    plt.show()
+    plt.savefig("titration_curve.png")
+
 
 #test2
