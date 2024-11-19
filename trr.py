@@ -1,8 +1,8 @@
 import trr_fileio
 
 if __name__ != '__main__': print("Import of trr successful")
-report_file = "D:\\python_projects\\report.rpt"
-temp_file = "D:\\python_projects\\report_extract.txt"
+report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
+temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
 
 VOLUME_INDEX = 1
 PH_INDEX = 3
