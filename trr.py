@@ -3,6 +3,7 @@ import trr_fileio
 if __name__ != '__main__': print("Import of trr successful")
 report_file = "D:\\python_projects\\report.rpt"
 temp_file = "D:\\python_projects\\report_extract.txt"
+
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
@@ -10,6 +11,8 @@ PH_INDEX = 3
 def process_line(line, titration_data):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
+
+
 
 
 
@@ -30,6 +33,8 @@ def calc_n_der(data, n = 1):
 
 
 
+
+
 def min_max_index(data):
     min_index, max_index = 0, 0
     for i in range(len(data)):
@@ -38,7 +43,6 @@ def min_max_index(data):
         if data[i][1] > data[max_index][1]:
             max_index = i
     return min_index, max_index
-
 
 def find_eq_point(sec_derivative):
     (min_index, max_index) = min_max_index(sec_derivative)
@@ -74,4 +78,15 @@ def get_titration_curve(report_file):
 
     return titration_data
     #print(titration_data)
+
     #trr_fileio.write_file(titration_data, temp_file)
+
+def secder_eqpoint(data):
+    parameters = []
+    titration_curve = get_titration_curve(data) # vytvoření titrační křivky
+    sec_derivation = calc_n_der(titration_curve, 2) # výpočet druhé derivace
+    eq_point = find_eq_point(sec_derivation) # výpočet bodu titrace
+    parameters.append([titration_curve, sec_derivation, eq_point]) # vytvoření seznamu trojic hodnot
+    
+    return parameters
+
