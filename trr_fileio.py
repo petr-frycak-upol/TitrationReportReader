@@ -85,6 +85,7 @@ def provide_valid_filename(folder, rootname, extension):
 
     return valid_filename
 
+report_directory = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\HI-931_reports" #!Nutno změnit pro každé z našich zařízení
 
 def read_directory(report_directory: str = ".") -> list[str]:
     # Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
