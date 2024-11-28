@@ -24,7 +24,7 @@ def calc_n_der(data, n = 1):
     for i in range(len(data)-1):
         (volume0, ph0) = data[i]
         (volume1, ph1) = data[i+1]
-
+        if volume0 == volume1: continue #např. v Ti_0002 je jeden řádek zapsaný dvakrát - chyba firmwaru titrátoru
         x = (ph1 - ph0) / (volume1 - volume0)
         output.append(((volume1 + volume0) / 2, x))
 
@@ -54,6 +54,8 @@ def find_eq_point(sec_derivative):
         if data[i][1] * data[i + 1][1] < 0:
             j = i
             break
+    if len(data) < 2: return 0 #následující kód potřebuje alespoň dvě hodnoty v seznamu; pokud neobsahuje
+    #vracíme nulu
     x1, y1 = data[j]
     x2, y2 = data[j + 1]
     m = (y2 - y1) / (x2 - x1)
@@ -61,7 +63,7 @@ def find_eq_point(sec_derivative):
     extrap = -b / m
     return extrap
 
-def get_titration_curve(report_file):
+def get_titration_curve(report_file: str) -> list[float]:
     titration_data = []
     lines = trr_fileio.read_file(report_file)
 
@@ -87,6 +89,6 @@ def secder_eqpoint(data):
     titration_curve = get_titration_curve(data) # vytvoření titrační křivky
     sec_derivation = calc_n_der(titration_curve, 2) # výpočet druhé derivace
     eq_point = find_eq_point(sec_derivation) # výpočet bodu titrace
-    
+    if eq_point == 0: return None
     return (titration_curve, sec_derivation, eq_point)
 

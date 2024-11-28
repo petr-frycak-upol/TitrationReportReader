@@ -2,6 +2,7 @@ import glob
 import os.path
 import matplotlib.pyplot as plt
 
+
 import glob
 
 DEFAULT_ROOT_TAIL_LENGTH = 3
@@ -83,9 +84,9 @@ def provide_valid_filename(folder, rootname, extension):
 
     return valid_filename
 
-report_directory = "D:\\Python_projects\\HI_931_reports" #!Nutno změnit pro každé z našich zařízení
 
-def read_directory(report_directory):
+
+def read_directory(report_directory: str = ".") -> list[str]:
     #Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
     pattern = os.path.join(report_directory, "*.rpt")
     #Použijeme glob aby nám našel všechny rpt soubory v adresáři
