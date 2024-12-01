@@ -1,7 +1,7 @@
 import trr
 import trr_fileio
 import user_specific_paths
-
+import visuals as vs
 
 working_folder = user_specific_paths.report_directory
 
@@ -13,6 +13,7 @@ for rpt_file in rpt_files:
     eq_data = trr.secder_eqpoint(rpt_file)
     if eq_data is None:
         print(f"Equivalence point not found in {rpt_file}")
+        vs.titration_chart(trr.get_titration_curve(rpt_file), rpt_file)
         continue
-    trr_fileio.chart(eq_data)
-
+    else:
+        vs.chart(eq_data, rpt_file)

@@ -1,11 +1,8 @@
 import glob
 import os.path
-import matplotlib.pyplot as plt
-
-
-import glob
 
 DEFAULT_ROOT_TAIL_LENGTH = 3
+
 
 def write_file(data, fullname):
     final_fullname = ""
@@ -19,7 +16,8 @@ def write_file(data, fullname):
 
         while not acceptable_answer:
 
-            answer = input(f"File {filename} exists! Overwrite (O), Rename manually (R), Append number (A), Cancel (C):\n")
+            answer = input(
+                f"File {filename} exists! Overwrite (O), Rename manually (R), Append number (A), Cancel (C):\n")
 
             if answer.upper() == "O":
                 final_fullname = fullname
@@ -47,7 +45,8 @@ def write_file(data, fullname):
             f.write(str(ph))
             f.write("\n")
     print(f"File written to {final_fullname}")
-        
+
+
 def provide_valid_filename(folder, rootname, extension):
     is_zero_to_nine = True
     is_valid_filename = False
@@ -59,11 +58,11 @@ def provide_valid_filename(folder, rootname, extension):
     root_tail_number = 0
     root_tail_length = DEFAULT_ROOT_TAIL_LENGTH
 
-    if underscore_rindex == -1: #jméno neobsahuje podtržítko
+    if underscore_rindex == -1:  # jméno neobsahuje podtržítko
         root_head = rootname + "_"
-    elif underscore_rindex == len(rootname)-1: #tj. jméno končí podtržítkem
+    elif underscore_rindex == len(rootname) - 1:  # tj. jméno končí podtržítkem
         root_head = rootname
-    else: #jméno obsahuje alespoň jedno podtržítko; žádné není na konci
+    else:  # jméno obsahuje alespoň jedno podtržítko; žádné není na konci
         root_tail = rootname[underscore_rindex + 1:]
         root_head = rootname[:underscore_rindex - 1]
         for char in root_tail:
@@ -79,19 +78,21 @@ def provide_valid_filename(folder, rootname, extension):
         if len(new_root_tail) < root_tail_length:
             new_root_tail = (root_tail_length - len(new_root_tail)) * "0" + new_root_tail
         valid_filename = os.path.join(folder, root_head + new_root_tail + extension)
-        if os.path.exists(valid_filename): root_tail_number += 1
-        else: break
+        if os.path.exists(valid_filename):
+            root_tail_number += 1
+        else:
+            break
 
     return valid_filename
 
 
-
 def read_directory(report_directory: str = ".") -> list[str]:
-    #Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
+    # Tímto se zadefinuje podle čeho má glob hledat soubory v adresáři
     pattern = os.path.join(report_directory, "*.rpt")
-    #Použijeme glob aby nám našel všechny rpt soubory v adresáři
+    # Použijeme glob aby nám našel všechny rpt soubory v adresáři
     rpt_files = glob.glob(pattern)
     return rpt_files
+
 
 def read_file(fullname):
     lines = []
@@ -100,28 +101,4 @@ def read_file(fullname):
             lines.append(line.strip())
     return lines
 
-def chart(data):
-    curve, sec_derivation, eq_point = data
-    x1 = [curve[i][0] for i in range(len(curve))]
-    y1 = [curve[i][1] for i in range(len(curve))]
-    x2 = [sec_derivation[i][0] for i in range(len(sec_derivation))]
-    y2 = [sec_derivation[i][1] for i in range(len(sec_derivation))]
-    # vytvoří dvě křivky dle indexů jak jsou data v listu vycházejícího z finkce "x"
-    plt.plot(x1, y1, label='Titration Curve', color='blue')
-    plt.plot(x2, y2, color='green', label='Second Derivative')
-    plt.axhline(y=0, color='black', linewidth=0.5)
-    plt.scatter(eq_point, 0, color="red", zorder=5, s=100)
-    plt.title(" Titration Curve with second derivative")
-    plt.xlabel("Volume")
-    plt.ylabel("pH")
-    # Přidá popisek do grafu s informací o bodu ekvivalence; indexově vybráno z listu vycházejícího z funkce "x"
-    plt.annotate(f"Equivalence point by volume: {eq_point}",
-                 xy=(eq_point, 0),
-                 xytext=(0, -16),
-                 arrowprops=None,
-                 fontsize=12, color="red")
-    plt.legend()
-    plt.show()
-
-
-#test2
+# test2
