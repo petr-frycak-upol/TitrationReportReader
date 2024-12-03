@@ -1,8 +1,9 @@
 import trr_fileio
 
 if __name__ != '__main__': print("Import of trr successful")
-report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
-temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
+report_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report.RPT"
+temp_file = "C:\\Users\\kubak\\Desktop\\Škola\\Navazující\\1.ZS\\PNAC\\Projekty\\report_extract.txt"
+
 VOLUME_INDEX = 1
 PH_INDEX = 3
 
@@ -40,8 +41,7 @@ def find_eq_point(sec_derivative):
     data = sec_derivative[min(min_index, max_index):max(min_index, max_index)]
     j = 0
     for i in range(len(data) - 1):
-        # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná,
-        # došlo k překročení osy x
+       
         # vezme vždy druhou hodnotu v daném a za ním následujícím tuplu, vynásobí a pokud je hodnota záporná,
         # došlo k překročení osy x
         if data[i][1] * data[i + 1][1] < 0:
