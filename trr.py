@@ -55,7 +55,7 @@ def find_eq_point(sec_derivative):
     extrap = -b / m
     return extrap
 
-def get_titration_curve(report_file):
+def get_titration_curve(report_file: str) -> list[float]:
     titration_data = []
     lines = trr_fileio.read_file(report_file)
 
@@ -77,10 +77,8 @@ def get_titration_curve(report_file):
     #trr_fileio.write_file(titration_data, temp_file)
 
 def secder_eqpoint(data):
-    parameters = []
     titration_curve = get_titration_curve(data) # vytvoření titrační křivky
     sec_derivation = calc_n_der(titration_curve, 2) # výpočet druhé derivace
     eq_point = find_eq_point(sec_derivation) # výpočet bodu titrace
-    parameters.append([titration_curve, sec_derivation, eq_point]) # vytvoření seznamu trojic hodnot
-    
-    return parameters
+    if eq_point == 0: return None
+    return (titration_curve, sec_derivation, eq_point)
