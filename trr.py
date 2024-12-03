@@ -9,7 +9,6 @@ PH_INDEX = 3
 
 
 def process_line(line, titration_data):
-def process_line(line, titration_data):
     s = line.split()
     titration_data.append((float(s[VOLUME_INDEX]), float(s[PH_INDEX])))
 
